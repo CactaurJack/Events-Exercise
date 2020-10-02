@@ -16,11 +16,11 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <local:Board Grid.RowSpan="3"/>
+        <local:Board x:Name="board" Grid.RowSpan="3"/>
         <TextBlock Name="Turn" FontSize="40" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
               X's Turn
         </TextBlock>
-        <Button Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Click="OnResetClicked" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             Reset Game
         </Button>        
     </Grid>

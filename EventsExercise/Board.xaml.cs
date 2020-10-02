@@ -18,6 +18,37 @@ namespace EventsExercise
     /// </summary>
     public partial class Board : UserControl
     {
+        public event EventHandler<WinEventArgs> Win;
+
+        public event EventHandler<TurnEventArgs> StartTurn;
+
+        Mark turn = Mark.X;
+        Mark Turn 
+        {
+            get => turn;
+            set
+            {
+                if(turn != value)
+                {
+                    turn = value;
+                    StartTurn?.Invoke(this, new TurnEventArgs(turn));
+                }
+            }
+        }
+
+        Mark winner = Mark.None;
+        public Mark Winner
+        {
+            get { return winner; }
+            private set {
+                if(winner != value)
+                {
+                    winner = value;
+                    Win?.Invoke(this, new WinEventArgs(winner));
+                }
+                winner = value; }
+
+        }
         /// <summary>
         /// Constructs a new game board
         /// </summary>
@@ -80,14 +111,34 @@ namespace EventsExercise
         /// <summary>
         /// Resets the board to a new game state
         /// </summary>
-        private void ResetBoard()
+        public void ResetBoard()
         {
             // iterate through all squares, clearing any marks
             foreach (var child in ticTacToeGrid.Children)
             {
                 var square = child as Square;
                 square.Mark = Mark.None;
-            }            
+            }
+            Winner = Mark.None;
+            Turn = Mark.X;
+        }
+
+        void OnSquarePicked(object sender, EventArgs e)
+        {
+            if(sender is Square square)
+            {
+                if (square.Mark == Mark.None  && Winner == Mark.None)
+                {
+                    square.Mark = Turn;
+                    Turn = (Turn == Mark.X) ? Mark.O : Mark.X;
+                    Winner = CheckForWin();
+                }
+            }
+        }
+
+        void OnResetClicked(object sender, RoutedEventArgs e)
+        {
+            ResetBoard();
         }
     }
 }

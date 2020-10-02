@@ -23,6 +23,23 @@ namespace EventsExercise
         public MainWindow()
         {
             InitializeComponent();
+            board.StartTurn += OnNewTurn;
+            board.Win += OnWin;
+        }
+
+        void OnResetClicked(object sender, RoutedEventArgs e)
+        {
+            board.ResetBoard();
+        }
+
+        void OnNewTurn(object sender, TurnEventArgs e)
+        {
+            Turn.Text = $"{e.Turn}'s Turn";
+        }
+
+        void OnWin(object sender, WinEventArgs e)
+        {
+            Turn.Text = $"{e.Winner} Wins!";
         }
     }
 }

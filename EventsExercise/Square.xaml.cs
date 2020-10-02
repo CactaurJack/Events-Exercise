@@ -18,6 +18,8 @@ namespace EventsExercise
     /// </summary>
     public partial class Square : UserControl
     {
+        public event EventHandler Pick;
+
         private Mark mark = Mark.None;
 
         /// <summary>
@@ -39,6 +41,12 @@ namespace EventsExercise
         public Square()
         {
             InitializeComponent();
+            this.MouseLeftButtonUp += OnMouseLeftButtonUp;
+        }
+
+        void OnMouseLeftButtonUp(object sender, MouseEventArgs e)
+        {
+            Pick?.Invoke(this, new EventArgs());
         }
     }
 }
